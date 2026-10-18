@@ -1,0 +1,24 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# 运行产物：结果文件与自动备份
+*_filled.xlsx
+*_backup.xlsx
+*_backup*.xlsx
+~$*.xlsx
+
+# 真实成绩数据（仅保留 examples/ 下的虚构示例）
+scores.xlsx
+scores_*.xlsx
+!examples/demo_scores.xlsx
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
