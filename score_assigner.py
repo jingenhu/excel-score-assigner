@@ -59,7 +59,20 @@ MAX_CONSECUTIVE = 2   # 同一数值最多连续出现几次（防连续重复�
 SEED = 20260101       # 随机种子，保证同配置多次运行结果可复现
 OUTPUT_SUFFIX = "_filled"   # 输出文件后缀
 
+# ---- 派生常量（无需修改）----
+# 路径解析基准：脚本所在目录，而非当前工作目录。
+# 这样 `python /任意路径/score_assigner.py` 在哪个目录执行都能找到默认示例表。
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # ==========================================================================
+
+
+def resolve_path(path: str) -> str:
+    """
+    相对路径按「脚本所在目录」解析；绝对路径原样规范化返回。
+    避免因当前工作目录不同而报「找不到文件」。
+    """
+    return os.path.normpath(path if os.path.isabs(path) else os.path.join(BASE_DIR, path))
 
 
 def _force_utf8_stdout() -> None:
@@ -178,7 +191,7 @@ def run(
     verbose: bool = True,
 ) -> dict:
     """执行一次赋值流程，返回结构化结果（便于测试与二次调用）。"""
-    src = os.path.abspath(file_path)
+    src = resolve_path(file_path)
     if not os.path.exists(src):
         raise FileNotFoundError(f"找不到文件：{src}")
 
